@@ -2,8 +2,10 @@ import { Outlet } from "react-router"
 
 const MainLayout = () => {
   return (
-    <div className="container">
-      <Outlet />
+    <div className="flex flex-col min-h-screen bg-gray-300">
+      <div className="container mx-auto">
+        <Outlet />
+      </div>
     </div>
   )
 }
