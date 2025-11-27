@@ -58,5 +58,3 @@ export type StopSearchResponse = {
   status: "cancelled"
   message: string
 }
-
-export type DropdownItemType = Country | GeoEntity

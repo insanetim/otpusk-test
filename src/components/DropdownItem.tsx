@@ -1,7 +1,9 @@
 import { Icon } from "@iconify-icon/react"
-import type { DropdownItemType, GeoEntity } from "../types"
+import type { Country, GeoEntity } from "../types"
 
-interface DropdownItemProps {
+export type DropdownItemType = Country | GeoEntity
+
+export interface DropdownItemProps {
   item: DropdownItemType
   onClick?: (item: DropdownItemType) => void
 }
