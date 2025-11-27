@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 import type { ErrorResponse } from "../types"
 
-type ApiFunction<Args extends unknown[] = unknown[]> = (
+export type ApiFunction<Args extends unknown[] = unknown[]> = (
   ...args: Args
 ) => Promise<Response>
 
