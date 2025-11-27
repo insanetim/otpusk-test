@@ -46,7 +46,7 @@ const useSearchInput = () => {
     }) => {
       try {
         let data: CountriesMap | GeoResponse
-        if (!searchQuery.isCountry && searchQuery.value.trim()) {
+        if (!searchQuery.isCountry && searchQuery.value) {
           data = await searchGeoQuery(searchQuery.value)
         } else {
           data = await fetchCountriesQuery()

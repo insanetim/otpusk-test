@@ -1,5 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react"
 import type { DropdownItemProps, DropdownItemType } from "./DropdownItem"
+
+export interface InputWithDropdownRef {
+  reset: () => void
+}
 
 interface InputWithDropdownProps {
   initValue?: string
@@ -9,13 +13,13 @@ interface InputWithDropdownProps {
   onItemClick?: (item: DropdownItemType) => void
 }
 
-const InputWithDropdown = ({
+const InputWithDropdown = forwardRef<InputWithDropdownRef, InputWithDropdownProps>(({
   initValue = "",
   DropdownItemComponent,
   dropdownItems,
   onInputChange,
   onItemClick,
-}: InputWithDropdownProps) => {
+}, ref) => {
   const [isOpen, setIsOpen] = useState(false)
   const [inputValue, setInputValue] = useState(initValue)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -55,12 +59,23 @@ const InputWithDropdown = ({
     }
   }, [])
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Expose reset method via ref
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      setIsOpen(false);
+      inputRef.current?.blur();
+    }
+  }));
+
   return (
     <div
       className="relative w-full"
       ref={dropdownRef}
     >
       <input
+        ref={inputRef}
         className="w-full border border-gray-300 rounded-md px-4 py-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         type="text"
         name="search"
@@ -90,6 +105,8 @@ const InputWithDropdown = ({
       )}
     </div>
   )
-}
+});
+
+InputWithDropdown.displayName = 'InputWithDropdown';
 
 export default InputWithDropdown
