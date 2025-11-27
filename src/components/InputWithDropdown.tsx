@@ -1,6 +1,12 @@
+import { debounce } from "lodash"
 import { useEffect, useRef, useState } from "react"
-import { fetchCountries } from "../api/apiClient"
-import type { Country, GeoEntity } from "../types"
+import { fetchCountriesQuery, searchGeoQuery } from "../api/apiClient"
+import {
+  selectSearchQuery,
+  setSearchQuery,
+} from "../store/features/searchFormSlice"
+import { useAppDispatch, useAppSelector } from "../store/hooks"
+import type { Country, DropdownItemType, GeoEntity } from "../types"
 import DropdownItem from "./DropdownItem"
 
 interface InputWithDropdownProps {
@@ -8,32 +14,45 @@ interface InputWithDropdownProps {
 }
 
 const InputWithDropdown = ({ onSelect }: InputWithDropdownProps) => {
+  const dispatch = useAppDispatch()
+  const searchQuery = useAppSelector(selectSearchQuery)
   const [isOpen, setIsOpen] = useState(false)
-  const [inputValue, setInputValue] = useState("")
+  const [inputValue, setInputValue] = useState(searchQuery.value)
   const [dropdownItems, setDropdownItems] = useState<Country[] | GeoEntity[]>(
     []
+  )
+  const [debouncedSearch] = useState(() =>
+    debounce((value: string) => {
+      dispatch(setSearchQuery({ value, isCountry: false }))
+    }, 300)
   )
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const handleOpenDropdown = async () => {
     setIsOpen(true)
-    if (inputValue) {
-      // logic to fetch items
-    } else {
-      const countries = await fetchCountries()
-      setDropdownItems(Object.values(countries))
-    }
   }
+
+  useEffect(() => {
+    // Cleanup debounce on component unmount
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [debouncedSearch])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
+    const { value } = e.target
     setInputValue(value)
+    debouncedSearch(value)
   }
 
-  const handleItemClick = () => {
-    console.log("Item clicked")
-    // setInputValue(item.label)
-    // setIsOpen(false)
+  const handleItemClick = (item: DropdownItemType) => {
+    const newValue = {
+      value: item.name,
+      isCountry: ("type" in item && item.type === "country") || "flag" in item,
+    }
+    setInputValue(newValue.value)
+    dispatch(setSearchQuery(newValue))
+    setIsOpen(false)
     onSelect?.()
   }
 
@@ -53,6 +72,28 @@ const InputWithDropdown = ({ onSelect }: InputWithDropdownProps) => {
     }
   }, [])
 
+  useEffect(() => {
+    const fetchData = async (searchQuery: {
+      value: string
+      isCountry: boolean
+    }) => {
+      try {
+        if (!searchQuery.isCountry && searchQuery.value.trim()) {
+          const geo = await searchGeoQuery(searchQuery.value)
+          setDropdownItems(Object.values(geo))
+        } else {
+          const countries = await fetchCountriesQuery()
+          setDropdownItems(Object.values(countries))
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error)
+        setDropdownItems([])
+      }
+    }
+
+    fetchData(searchQuery)
+  }, [searchQuery])
+
   return (
     <div
       className="relative w-full"
@@ -71,13 +112,19 @@ const InputWithDropdown = ({ onSelect }: InputWithDropdownProps) => {
 
       {isOpen && (
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-          {dropdownItems.map(item => (
-            <DropdownItem
-              key={item.id}
-              item={item}
-              onClick={handleItemClick}
-            />
-          ))}
+          {dropdownItems.length > 0 ? (
+            <>
+              {dropdownItems.map(item => (
+                <DropdownItem
+                  key={item.id}
+                  item={item}
+                  onClick={handleItemClick}
+                />
+              ))}
+            </>
+          ) : (
+            <p className="px-4 py-2">No results found</p>
+          )}
         </div>
       )}
     </div>

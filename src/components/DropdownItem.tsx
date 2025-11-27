@@ -1,44 +1,34 @@
 import { Icon } from "@iconify-icon/react"
-import type { Country, GeoEntity } from "../types"
-
-type ItemType = Country | GeoEntity
+import type { DropdownItemType, GeoEntity } from "../types"
 
 interface DropdownItemProps {
-  item: ItemType
-  onClick?: (item: ItemType) => void
+  item: DropdownItemType
+  onClick?: (item: DropdownItemType) => void
 }
 
 const DropdownItem: React.FC<DropdownItemProps> = ({ item, onClick }) => {
-  const getIconName = (item: GeoEntity) => {
-    switch (item.type) {
-      case "country":
-        return "tabler:map-2"
-      case "city":
-        return "tabler:building-community"
-      case "hotel":
-        return "tabler:bed-filled"
-    }
+  const iconMap: Record<GeoEntity["type"], string> = {
+    country: "tabler:map-2",
+    city: "tabler:building-community",
+    hotel: "tabler:bed-filled",
   }
 
-  const renderContent = (item: ItemType) => {
-    if ("flag" in item && !("type" in item)) {
-      return (
-        <>
+  const renderContent = (item: DropdownItemType) => {
+    const isCountry = "flag" in item && !("type" in item)
+
+    return (
+      <>
+        {isCountry ? (
           <img
             src={item.flag}
             alt={item.name}
           />
-          <span>{item.name}</span>
-        </>
-      )
-    } else {
-      return (
-        <>
-          <Icon icon={getIconName(item)} />
-          <span>{item.name}</span>
-        </>
-      )
-    }
+        ) : (
+          <Icon icon={iconMap[item.type]} />
+        )}
+        <span>{item.name}</span>
+      </>
+    )
   }
 
   return (
