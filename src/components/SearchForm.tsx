@@ -1,5 +1,6 @@
 import { useRef } from "react"
 import useSearchInput from "../hooks/useSearchInput"
+import useSearchResult from "../hooks/useSearchResult"
 import DropdownItem from "./DropdownItem"
 import type { InputWithDropdownRef } from "./InputWithDropdown"
 import InputWithDropdown from "./InputWithDropdown"
@@ -7,13 +8,14 @@ import InputWithDropdown from "./InputWithDropdown"
 const SearchForm = () => {
   const { searchVavue, searchData, onInputChange, onItemClick } =
     useSearchInput()
+  const { fetchSearchResult } = useSearchResult()
 
   const inputRef = useRef<InputWithDropdownRef>(null)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!searchVavue) return
-    console.log("Search query:", searchVavue)
+
+    fetchSearchResult(searchVavue)
 
     inputRef.current?.reset()
   }
