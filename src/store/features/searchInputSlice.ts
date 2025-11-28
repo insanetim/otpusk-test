@@ -1,26 +1,26 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
-interface SearchFormState {
+interface SearchInputState {
   searchQuery: {
     value: string
     isCountry: boolean
   }
 }
 
-const initialState: SearchFormState = {
+const initialState: SearchInputState = {
   searchQuery: {
     value: "",
     isCountry: true,
   },
 }
 
-const searchFormSlice = createSlice({
-  name: "searchForm",
+const searchInputSlice = createSlice({
+  name: "searchInput",
   initialState,
   reducers: {
     setSearchQuery(
       state,
-      action: PayloadAction<{ value: string; isCountry: boolean }>
+      action: PayloadAction<SearchInputState["searchQuery"]>
     ) {
       state.searchQuery = action.payload
     },
@@ -30,8 +30,8 @@ const searchFormSlice = createSlice({
   },
 })
 
-export const { setSearchQuery } = searchFormSlice.actions
+export const { setSearchQuery } = searchInputSlice.actions
 
-export const { selectSearchQuery } = searchFormSlice.selectors
+export const { selectSearchQuery } = searchInputSlice.selectors
 
-export default searchFormSlice
+export default searchInputSlice

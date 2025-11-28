@@ -1,10 +1,12 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
-import searchFormSlice from "./features/searchFormSlice"
+import searchInputSlice from "./features/searchInputSlice"
+import searchResultSlice from "./features/searchResultSlice"
 
-const combinedReducers = combineSlices(searchFormSlice)
+const combinedReducers = combineSlices(searchInputSlice, searchResultSlice)
 
 export const store = configureStore({
   reducer: combinedReducers,
+  devTools: import.meta.env.NODE_ENV !== "production",
 })
 
 export type RootState = ReturnType<typeof store.getState>

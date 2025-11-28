@@ -5,7 +5,7 @@ import type { DropdownItemType } from "../components/DropdownItem"
 import {
   selectSearchQuery,
   setSearchQuery,
-} from "../store/features/searchFormSlice"
+} from "../store/features/searchInputSlice"
 import { useAppDispatch, useAppSelector } from "../store/hooks"
 import type { CountriesMap, Country, GeoEntity, GeoResponse } from "../types"
 
