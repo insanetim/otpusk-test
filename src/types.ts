@@ -1,6 +1,15 @@
-// Базові сутності
-export type Country = { id: string; name: string; flag: string }
-export type City = { id: number; name: string }
+export type Country = {
+  id: string
+  name: string
+  flag: string
+}
+
+export type City = {
+  id: number
+  name: string
+  countryId: string
+}
+
 export type Hotel = {
   id: number
   name: string
@@ -11,11 +20,10 @@ export type Hotel = {
   countryName: string
 }
 
-// Колекції у вигляді словників
 export type CountriesMap = Record<string, Country>
+
 export type HotelsMap = Record<string, Hotel>
 
-// Пошук цін (оффер)
 export type PriceOffer = {
   id: string // UUID
   amount: number // 1500–4000
@@ -25,10 +33,8 @@ export type PriceOffer = {
   hotelID?: string // додається в результатах пошуку цін
 }
 
-// Відповідь пошуку цін (готові результати)
 export type PricesMap = Record<string, PriceOffer>
 
-// Підказки гео-пошуку
 export type GeoEntity =
   | (Country & { type: "country" })
   | (City & { type: "city" })
@@ -36,7 +42,6 @@ export type GeoEntity =
 
 export type GeoResponse = Record<string, GeoEntity>
 
-// Уніфікована помилка
 export type ErrorResponse = {
   code: number // 400, 404, 425
   error: true
@@ -44,7 +49,6 @@ export type ErrorResponse = {
   waitUntil?: string // ISO для 425
 }
 
-// Успішні спеціальні відповіді
 export type StartSearchResponse = {
   token: string
   waitUntil: string // ISO коли можна питати результати

@@ -1,15 +1,17 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
 interface SearchInputState {
-  searchQuery: {
+  searchParams: {
     value: string
+    countryId: string
     isCountry: boolean
   }
 }
 
 const initialState: SearchInputState = {
-  searchQuery: {
+  searchParams: {
     value: "",
+    countryId: "",
     isCountry: true,
   },
 }
@@ -20,18 +22,18 @@ const searchInputSlice = createSlice({
   reducers: {
     setSearchQuery(
       state,
-      action: PayloadAction<SearchInputState["searchQuery"]>
+      action: PayloadAction<SearchInputState["searchParams"]>
     ) {
-      state.searchQuery = action.payload
+      state.searchParams = action.payload
     },
   },
   selectors: {
-    selectSearchQuery: state => state.searchQuery,
+    selectSearchParams: state => state.searchParams,
   },
 })
 
 export const { setSearchQuery } = searchInputSlice.actions
 
-export const { selectSearchQuery } = searchInputSlice.selectors
+export const { selectSearchParams } = searchInputSlice.selectors
 
 export default searchInputSlice

@@ -1,21 +1,21 @@
 import { useRef } from "react"
 import useSearchInput from "../hooks/useSearchInput"
-import useSearchResult from "../hooks/useSearchResult"
+import useSearchPrices from "../hooks/useSearchPrices"
 import DropdownItem from "./DropdownItem"
 import type { InputWithDropdownRef } from "./InputWithDropdown"
 import InputWithDropdown from "./InputWithDropdown"
 
 const SearchForm = () => {
-  const { searchVavue, searchData, onInputChange, onItemClick } =
+  const { searchValue, countryId, searchData, onInputChange, onItemClick } =
     useSearchInput()
-  const { fetchSearchResult } = useSearchResult()
+  const { prices, loading, error, fetchSearchResult } = useSearchPrices()
 
   const inputRef = useRef<InputWithDropdownRef>(null)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    fetchSearchResult(searchVavue)
+    fetchSearchResult(countryId)
 
     inputRef.current?.reset()
   }
@@ -29,14 +29,14 @@ const SearchForm = () => {
       >
         <InputWithDropdown
           ref={inputRef}
-          initValue={searchVavue}
+          initValue={searchValue}
           DropdownItemComponent={DropdownItem}
           dropdownItems={searchData}
           onInputChange={onInputChange}
           onItemClick={onItemClick}
         />
         <button
-          className="w-full bg-blue-600 text-white text-lg font-medium py-3 rounded-md cursor-pointer"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium py-3 rounded-md cursor-pointer"
           type="submit"
         >
           Search

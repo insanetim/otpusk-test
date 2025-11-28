@@ -1,8 +1,8 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import searchInputSlice from "./features/searchInputSlice"
-import searchResultSlice from "./features/searchResultSlice"
+import searchPricesSlice from "./features/searchPricesSlice"
 
-const combinedReducers = combineSlices(searchInputSlice, searchResultSlice)
+const combinedReducers = combineSlices(searchInputSlice, searchPricesSlice)
 
 export const store = configureStore({
   reducer: combinedReducers,

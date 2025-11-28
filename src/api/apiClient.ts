@@ -1,4 +1,4 @@
-import { fetchData, fetchDataWithRetries } from "../lib/fetch"
+import { fetchData } from "../lib/fetch"
 import {
   getCountries,
   getSearchPrices,
@@ -20,7 +20,7 @@ export const startSearchPricesQuery = fetchData<StartSearchResponse, [string]>(
   startSearchPrices
 )
 
-export const getSearchPricesQuery = fetchDataWithRetries<
+export const getSearchPricesQuery = fetchData<
   GetSearchPricesResponse,
   [string]
 >(getSearchPrices)

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react"
 import { fetchCountriesQuery, searchGeoQuery } from "../api/apiClient"
 import type { DropdownItemType } from "../components/DropdownItem"
 import {
-  selectSearchQuery,
+  selectSearchParams,
   setSearchQuery,
 } from "../store/features/searchInputSlice"
 import { useAppDispatch, useAppSelector } from "../store/hooks"
@@ -11,11 +11,11 @@ import type { CountriesMap, Country, GeoEntity, GeoResponse } from "../types"
 
 const useSearchInput = () => {
   const dispatch = useAppDispatch()
-  const searchQuery = useAppSelector(selectSearchQuery)
+  const searchParams = useAppSelector(selectSearchParams)
 
   const [debouncedSearch] = useState(() =>
     debounce((value: string) => {
-      dispatch(setSearchQuery({ value, isCountry: false }))
+      dispatch(setSearchQuery({ value, countryId: "", isCountry: false }))
     }, 300)
   )
   const [searchData, setSearchData] = useState<Country[] | GeoEntity[]>([])
@@ -31,6 +31,7 @@ const useSearchInput = () => {
     (item: DropdownItemType) => {
       const newValue = {
         value: item.name,
+        countryId: "flag" in item ? item.id : item.countryId,
         isCountry:
           ("type" in item && item.type === "country") || "flag" in item,
       }
@@ -58,8 +59,8 @@ const useSearchInput = () => {
       }
     }
 
-    fetchData(searchQuery)
-  }, [searchQuery])
+    fetchData(searchParams)
+  }, [searchParams])
 
   useEffect(() => {
     return () => {
@@ -68,7 +69,8 @@ const useSearchInput = () => {
   }, [debouncedSearch])
 
   return {
-    searchVavue: searchQuery.value,
+    searchValue: searchParams.value,
+    countryId: searchParams.countryId,
     searchData,
     onInputChange,
     onItemClick,
