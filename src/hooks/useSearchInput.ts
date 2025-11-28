@@ -70,7 +70,6 @@ const useSearchInput = () => {
 
   return {
     searchValue: searchParams.value,
-    countryId: searchParams.countryId,
     searchData,
     onInputChange,
     onItemClick,

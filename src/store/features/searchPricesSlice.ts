@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import type { GetSearchPricesResponse } from "../../types"
+import type { GetSearchPricesResponse, PricesMap } from "../../types"
 
 interface SearchPricesState {
-  prices: GetSearchPricesResponse["prices"]
+  prices: PricesMap
 }
 
 const initialState: SearchPricesState = {
@@ -22,11 +22,12 @@ const searchPricesSlice = createSlice({
   },
   selectors: {
     selectPrices: state => state.prices,
+    selectPricesList: state => Object.values(state.prices),
   },
 })
 
 export const { setPrices } = searchPricesSlice.actions
 
-export const { selectPrices: selectPrices } = searchPricesSlice.selectors
+export const { selectPrices, selectPricesList } = searchPricesSlice.selectors
 
 export default searchPricesSlice

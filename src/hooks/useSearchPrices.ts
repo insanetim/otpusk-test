@@ -1,13 +1,16 @@
 import { useCallback, useState } from "react"
 import { getSearchPricesQuery, startSearchPricesQuery } from "../api/apiClient"
 import { waitUntilTime } from "../lib/waitUntilTime"
-import { selectPrices, setPrices } from "../store/features/searchPricesSlice"
+import {
+  selectPricesList,
+  setPrices,
+} from "../store/features/searchPricesSlice"
 import { useAppDispatch, useAppSelector } from "../store/hooks"
 import type { ErrorResponse, StartSearchResponse } from "../types"
 
 const useSearchPrices = () => {
   const dispatch = useAppDispatch()
-  const prices = useAppSelector(selectPrices)
+  const pricesList = useAppSelector(selectPricesList)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<ErrorResponse | null>(null)
 
@@ -54,7 +57,7 @@ const useSearchPrices = () => {
     [dispatch, pollSearchPrices]
   )
 
-  return { prices, loading, error, fetchSearchResult }
+  return { pricesList, loading, error, fetchSearchResult }
 }
 
 export default useSearchPrices
