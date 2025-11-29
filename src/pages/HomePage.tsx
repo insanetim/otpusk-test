@@ -6,14 +6,15 @@ import { selectSearchParams } from "../store/features/searchInputSlice"
 import { useAppSelector } from "../store/hooks"
 
 const HomePage = () => {
-  const { countryId } = useAppSelector(selectSearchParams)
+  const { value, countryId } = useAppSelector(selectSearchParams)
   const { isFirstLoad, searchTours, loading, error, fetchSearchTours } =
     useSearchTours()
 
   const handleSubmit = useCallback(() => {
-    if (!countryId) return
+    // api requires countryId, but how to handle custom user input doestn't covered in spec
+    if (!value) return
     fetchSearchTours(countryId)
-  }, [countryId, fetchSearchTours])
+  }, [countryId, fetchSearchTours, value])
 
   return (
     <div className="flex flex-col justify-center gap-8">

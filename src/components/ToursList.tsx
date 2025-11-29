@@ -1,6 +1,7 @@
 import type { JSX } from "react"
 import type { ErrorResponse, SearchTour } from "../types"
 import ErrorAlert from "./ErrorAlert"
+import InfoAlert from "./InfoAlert"
 import Loading from "./Loading"
 import TourCard from "./TourCard"
 
@@ -18,11 +19,7 @@ const ToursList: React.FC<ToursListProps> = ({ tours, loading, error }) => {
   } else if (error) {
     content = <ErrorAlert error={error} />
   } else if (!tours.length) {
-    content = (
-      <p className="bg-white shadow rounded-md text-center text-xl p-4 max-w-[600px] mx-auto">
-        No tours were found based on your request.
-      </p>
-    )
+    content = <InfoAlert>No tours were found based on your request.</InfoAlert>
   } else {
     content = (
       <div className="max-w-[700px] mx-auto p-[25px] grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
