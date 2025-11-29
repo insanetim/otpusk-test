@@ -1,14 +1,20 @@
 import { Icon } from "@iconify-icon/react"
-import type { ErrorResponse } from "../types"
+import type { HTMLAttributes } from "react"
+import { twMerge } from "tailwind-merge"
+import type { ErrorResponse } from "../../types"
 
 interface ErrorAlertProps {
   error: ErrorResponse
+  className?: HTMLAttributes<HTMLElement>["className"]
 }
 
-const ErrorAlert: React.FC<ErrorAlertProps> = ({ error }) => {
+const ErrorAlert: React.FC<ErrorAlertProps> = ({ error, className }) => {
   return (
     <div
-      className="bg-red-50 border-2 border-red-500 rounded-xl p-4 max-w-[600px] mx-auto"
+      className={twMerge(
+        "bg-red-50 border-2 border-red-500 rounded-xl p-4 w-full max-w-[600px] mx-auto",
+        className
+      )}
       role="alert"
     >
       <div className="flex items-start">

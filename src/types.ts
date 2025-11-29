@@ -20,6 +20,21 @@ export type Hotel = {
   countryName: string
 }
 
+export type ServiceValue = "yes" | "none"
+
+export type Services = {
+  wifi: ServiceValue
+  aquapark: ServiceValue
+  tennis_court: ServiceValue
+  laundry: ServiceValue
+  parking: ServiceValue
+}
+
+export type ExHotel = Hotel & {
+  description: string
+  services: Services
+}
+
 export type CountriesMap = Record<string, Country>
 
 export type HotelsMap = Record<string, Hotel>
@@ -73,4 +88,17 @@ export type SearchTour = {
   hotelCountry?: Hotel["cityName"]
   hotelCity?: Hotel["countryName"]
   hotelImg?: Hotel["img"]
+}
+
+export type TourDetails = {
+  id: PriceOffer["id"]
+  amount: PriceOffer["amount"]
+  currency: PriceOffer["currency"]
+  startDate: PriceOffer["startDate"]
+  hotelName?: Hotel["name"]
+  hotelCountry?: Hotel["cityName"]
+  hotelCity?: Hotel["countryName"]
+  hotelImg?: Hotel["img"]
+  hotelDescription?: ExHotel["description"]
+  hotelServices?: ExHotel["services"]
 }
