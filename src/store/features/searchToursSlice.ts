@@ -8,12 +8,14 @@ import type { HotelsMap, PricesMap, SearchTour } from "../../types"
 interface SearchPricesState {
   prices: PricesMap
   hotels: HotelsMap
+  cachedHotels: Record<string, HotelsMap>
   isFirstLoad: boolean
 }
 
 const initialState: SearchPricesState = {
   prices: {},
   hotels: {},
+  cachedHotels: {},
   isFirstLoad: true,
 }
 
@@ -27,6 +29,12 @@ const searchToursSlice = createSlice({
     setHotels: (state, action: PayloadAction<HotelsMap>) => {
       state.hotels = action.payload
     },
+    setCachedHotels: (
+      state,
+      action: PayloadAction<{ key: string; hotels: HotelsMap }>
+    ) => {
+      state.cachedHotels[action.payload.key] = action.payload.hotels
+    },
     setIsFirstLoad: (state, action: PayloadAction<boolean>) => {
       state.isFirstLoad = action.payload
     },
@@ -34,14 +42,20 @@ const searchToursSlice = createSlice({
   selectors: {
     selectPrices: state => state.prices,
     selectHotels: state => state.hotels,
+    selectCachedHotels: state => state.cachedHotels,
     selectIsFirstLoad: state => state.isFirstLoad,
   },
 })
 
-export const { setPrices, setHotels, setIsFirstLoad } = searchToursSlice.actions
+export const { setPrices, setHotels, setCachedHotels, setIsFirstLoad } =
+  searchToursSlice.actions
 
-export const { selectPrices, selectHotels, selectIsFirstLoad } =
-  searchToursSlice.selectors
+export const {
+  selectPrices,
+  selectHotels,
+  selectCachedHotels,
+  selectIsFirstLoad,
+} = searchToursSlice.selectors
 
 export const selectSearchTours = createSelector(
   [selectPrices, selectHotels],

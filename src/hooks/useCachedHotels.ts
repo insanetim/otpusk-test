@@ -1,19 +1,27 @@
-import { useCallback, useRef } from "react"
+import { useCallback } from "react"
 import { getHotelsQuery } from "../api/apiClient"
-import type { HotelsMap } from "../types"
+import {
+  selectCachedHotels,
+  setCachedHotels,
+} from "../store/features/searchToursSlice"
+import { useAppDispatch, useAppSelector } from "../store/hooks"
 
 const useCachedHotels = () => {
-  const cachedHotels = useRef<Record<string, HotelsMap>>({})
+  const dispatch = useAppDispatch()
+  const cachedHotels = useAppSelector(selectCachedHotels)
 
-  const fetchHotels = useCallback(async (countryId: string) => {
-    if (cachedHotels.current[countryId]) {
-      return cachedHotels.current[countryId]
-    }
+  const fetchHotels = useCallback(
+    async (countryId: string) => {
+      if (cachedHotels[countryId]) {
+        return cachedHotels[countryId]
+      }
 
-    const hotels = await getHotelsQuery(countryId)
-    cachedHotels.current[countryId] = hotels
-    return hotels
-  }, [])
+      const hotels = await getHotelsQuery(countryId)
+      dispatch(setCachedHotels({ key: countryId, hotels }))
+      return hotels
+    },
+    [cachedHotels, dispatch]
+  )
 
   return { fetchHotels }
 }
