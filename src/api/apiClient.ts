@@ -1,6 +1,7 @@
 import { fetchData } from "../lib/fetch"
 import {
   getCountries,
+  getHotels,
   getSearchPrices,
   searchGeo,
   startSearchPrices,
@@ -9,6 +10,7 @@ import type {
   CountriesMap,
   GeoResponse,
   GetSearchPricesResponse,
+  HotelsMap,
   StartSearchResponse,
 } from "../types"
 
@@ -24,3 +26,5 @@ export const getSearchPricesQuery = fetchData<
   GetSearchPricesResponse,
   [string]
 >(getSearchPrices)
+
+export const getHotelsQuery = fetchData<HotelsMap, [string]>(getHotels)

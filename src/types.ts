@@ -62,3 +62,15 @@ export type StopSearchResponse = {
   status: "cancelled"
   message: string
 }
+
+export type SearchTour = {
+  id: PriceOffer["id"]
+  amount: PriceOffer["amount"]
+  currency: PriceOffer["currency"]
+  startDate: PriceOffer["startDate"]
+  hotelId: PriceOffer["hotelID"]
+  hotelName?: Hotel["name"]
+  hotelCountry?: Hotel["cityName"]
+  hotelCity?: Hotel["countryName"]
+  hotelImg?: Hotel["img"]
+}

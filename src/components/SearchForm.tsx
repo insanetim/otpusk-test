@@ -22,10 +22,12 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit }) => {
   }
 
   return (
-    <div className="w-[600px] max-w-full mx-auto bg-white shadow rounded-md px-4 pt-4 pb-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Search Tours Form</h1>
+    <div className="w-[600px] max-w-full mx-auto bg-white shadow rounded-md p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
+        Search Tours Form
+      </h1>
       <form
-        className="flex flex-col gap-4 mb-4"
+        className="flex flex-col gap-4"
         onSubmit={handleSubmit}
       >
         <InputWithDropdown
@@ -35,6 +37,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit }) => {
           dropdownItems={searchData}
           onInputChange={onInputChange}
           onItemClick={onItemClick}
+          placeholder="Select a country"
         />
         <button
           className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium py-3 rounded-md cursor-pointer"
