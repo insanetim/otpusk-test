@@ -10,7 +10,7 @@ export interface DropdownItemProps {
 
 const DropdownItem: React.FC<DropdownItemProps> = ({ item, onClick }) => {
   const iconMap: Record<GeoEntity["type"], string> = {
-    country: "tabler:map-2",
+    country: "tabler:map-pin",
     city: "tabler:building-community",
     hotel: "tabler:bed-filled",
   }
@@ -26,7 +26,10 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ item, onClick }) => {
             alt={item.name}
           />
         ) : (
-          <Icon icon={iconMap[item.type]} />
+          <Icon
+            icon={iconMap[item.type]}
+            style={{ fontSize: "18px" }}
+          />
         )}
         <span>{item.name}</span>
       </>
@@ -35,7 +38,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ item, onClick }) => {
 
   return (
     <div
-      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3"
+      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
       onClick={() => onClick?.(item)}
     >
       {renderContent(item)}
