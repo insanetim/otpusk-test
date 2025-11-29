@@ -23,8 +23,9 @@ const TourPage = () => {
   } else if (!tourDetails || !priceId || !hotelId) {
     content = (
       <InfoAlert className="mt-8">
-        Tour details were not found. Some required search parameters may be
-        missing.
+        Tour details were not found.
+        <br />
+        Some required search parameters may be missing.
       </InfoAlert>
     )
   } else {

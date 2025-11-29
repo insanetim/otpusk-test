@@ -16,7 +16,7 @@ const TourDetailsCard: React.FC<TourDetailsCardProps> = ({ tourDetails }) => {
       <h1 className="text-gray-800 font-bold text-3xl">
         {tourDetails.hotelName}
       </h1>
-      <div className="flex items-center gap-6">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
         <div className="flex items-center gap-2">
           <Icon icon="tabler:map-pin" /> {tourDetails.hotelCountry}
         </div>
@@ -33,7 +33,9 @@ const TourDetailsCard: React.FC<TourDetailsCardProps> = ({ tourDetails }) => {
         <h3 className="text-gray-800 text-xl font-semibold">Description</h3>
         <p>{tourDetails.hotelDescription}</p>
       </div>
-      <TourDetailsServices services={tourDetails.hotelServices} />
+      {tourDetails.hotelServices && (
+        <TourDetailsServices services={tourDetails.hotelServices} />
+      )}
       <hr className="border-t-gray-200" />
       <div className="flex items-center gap-2">
         <Icon icon="tabler:calendar-check" />{" "}
