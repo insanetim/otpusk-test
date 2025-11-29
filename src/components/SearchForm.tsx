@@ -1,6 +1,6 @@
 import { useRef } from "react"
 import useSearchInput from "../hooks/useSearchInput"
-import DropdownItem from "./DropdownItem"
+import DropdownItem, { type DropdownItemType } from "./DropdownItem"
 import type { InputWithDropdownRef } from "./InputWithDropdown"
 import InputWithDropdown from "./InputWithDropdown"
 
@@ -13,10 +13,15 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit }) => {
     useSearchInput()
 
   const inputRef = useRef<InputWithDropdownRef>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  const handleItemClick = (item: DropdownItemType) => {
+    onItemClick?.(item)
+    buttonRef.current?.focus()
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     inputRef.current?.reset()
     onSubmit?.()
   }
@@ -36,11 +41,12 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit }) => {
           DropdownItemComponent={DropdownItem}
           dropdownItems={searchData}
           onInputChange={onInputChange}
-          onItemClick={onItemClick}
+          onItemClick={handleItemClick}
           placeholder="Select a country"
         />
         <button
           className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium py-3 rounded-md cursor-pointer"
+          ref={buttonRef}
           type="submit"
         >
           Search
