@@ -18,7 +18,7 @@ const App = () => {
             element={<HomePage />}
           />
           <Route
-            path="tour/:id"
+            path="tour"
             element={<TourPage />}
           />
         </Route>

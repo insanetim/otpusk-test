@@ -1,19 +1,9 @@
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import { getSearchPricesQuery, startSearchPricesQuery } from "../api/apiClient"
 import { waitUntilTime } from "../lib/waitUntilTime"
-import {
-  selectPricesList,
-  setPrices,
-} from "../store/features/searchPricesSlice"
-import { useAppDispatch, useAppSelector } from "../store/hooks"
 import type { ErrorResponse, StartSearchResponse } from "../types"
 
 const useSearchPrices = () => {
-  const dispatch = useAppDispatch()
-  const pricesList = useAppSelector(selectPricesList)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<ErrorResponse | null>(null)
-
   const pollSearchPrices = useCallback(
     async ({ token, waitUntil }: StartSearchResponse, maxAttempts = 2) => {
       let lastError: unknown
@@ -40,24 +30,16 @@ const useSearchPrices = () => {
     []
   )
 
-  const fetchSearchResult = useCallback(
+  const fetchSearchPrices = useCallback(
     async (countryId: string) => {
-      setLoading(true)
-      try {
-        const searchToken = await startSearchPricesQuery(countryId)
-        const { prices } = await pollSearchPrices(searchToken, 2)
-        dispatch(setPrices(prices))
-        setError(null)
-      } catch (error) {
-        setError(error as ErrorResponse)
-      } finally {
-        setLoading(false)
-      }
+      const searchToken = await startSearchPricesQuery(countryId)
+      const { prices } = await pollSearchPrices(searchToken, 2)
+      return prices
     },
-    [dispatch, pollSearchPrices]
+    [pollSearchPrices]
   )
 
-  return { pricesList, loading, error, fetchSearchResult }
+  return { fetchSearchPrices }
 }
 
 export default useSearchPrices

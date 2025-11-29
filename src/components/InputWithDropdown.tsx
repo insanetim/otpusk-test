@@ -12,7 +12,8 @@ export interface InputWithDropdownRef {
   reset: () => void
 }
 
-interface InputWithDropdownProps {
+interface InputWithDropdownProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   initValue?: string
   DropdownItemComponent: React.FC<DropdownItemProps>
   dropdownItems: DropdownItemType[]
@@ -31,6 +32,7 @@ const InputWithDropdown = forwardRef<
       dropdownItems,
       onInputChange,
       onItemClick,
+      ...otherProps
     },
     ref
   ) => {
@@ -96,6 +98,7 @@ const InputWithDropdown = forwardRef<
           autoComplete="off"
           onChange={handleInputChange}
           onFocus={handleOpenDropdown}
+          {...otherProps}
         />
 
         {isOpen && (
