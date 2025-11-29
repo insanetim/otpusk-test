@@ -1,7 +1,7 @@
 import { Icon } from "@iconify-icon/react"
 import type { HTMLAttributes } from "react"
 import { twMerge } from "tailwind-merge"
-import type { ErrorResponse } from "../types"
+import type { ErrorResponse } from "../../types"
 
 interface ErrorAlertProps {
   error: ErrorResponse

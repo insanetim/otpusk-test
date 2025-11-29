@@ -1,8 +1,8 @@
 import { Icon } from "@iconify-icon/react"
 import { useEffect, type JSX } from "react"
 import { Link, useSearchParams } from "react-router"
-import ErrorAlert from "../components/ErrorAlert"
-import InfoAlert from "../components/InfoAlert"
+import ErrorAlert from "../components/shared/ErrorAlert"
+import InfoAlert from "../components/shared/InfoAlert"
 import TourDetailsCard from "../components/TourDetailsCard"
 import useTourDetails from "../hooks/useTourDetails"
 

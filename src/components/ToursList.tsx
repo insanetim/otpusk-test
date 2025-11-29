@@ -1,8 +1,8 @@
 import type { JSX } from "react"
 import type { ErrorResponse, SearchTour } from "../types"
-import ErrorAlert from "./ErrorAlert"
-import InfoAlert from "./InfoAlert"
-import Loading from "./Loading"
+import ErrorAlert from "./shared/ErrorAlert"
+import InfoAlert from "./shared/InfoAlert"
+import Loading from "./shared/Loading"
 import TourCard from "./TourCard"
 
 interface ToursListProps {

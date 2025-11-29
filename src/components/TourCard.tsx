@@ -1,5 +1,5 @@
-import { format } from "date-fns"
 import { Link } from "react-router"
+import { formatDate } from "../lib/formatDate"
 import type { SearchTour } from "../types"
 import Card from "./shared/Card"
 import Image from "./shared/Image"
@@ -24,7 +24,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
       </p>
       <div className="flex flex-col">
         <p className="text-sm">Tour start date</p>
-        <p>{format(new Date(tour.startDate), "dd.MM.yyyy")}</p>
+        <p>{formatDate(tour.startDate)}</p>
       </div>
       <Price
         amount={tour.amount}
