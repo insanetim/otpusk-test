@@ -12,14 +12,22 @@ export const waitUntilTime = (
     const now = Date.now()
     const delay = Math.max(0, targetTime - now)
 
-    const timeoutId = setTimeout(resolve, delay)
+    const timeoutId = setTimeout(() => {
+      cleanup()
+      resolve()
+    }, delay)
+
+    const onAbort = () => {
+      cleanup()
+      reject(new Error("Wait cancelled"))
+    }
+
+    const cleanup = () => {
+      clearTimeout(timeoutId)
+      signal?.removeEventListener("abort", onAbort)
+    }
 
     if (signal) {
-      const onAbort = () => {
-        clearTimeout(timeoutId)
-        reject(new Error("Wait cancelled"))
-      }
-
       signal.addEventListener("abort", onAbort, { once: true })
     }
   })
