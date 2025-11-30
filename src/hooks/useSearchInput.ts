@@ -1,5 +1,5 @@
 import { debounce } from "lodash"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { fetchCountriesQuery, searchGeoQuery } from "../api/apiClient"
 import type { DropdownItemType } from "../components/DropdownItem"
 import {
@@ -13,19 +13,16 @@ const useSearchInput = () => {
   const dispatch = useAppDispatch()
   const searchParams = useAppSelector(selectSearchParams)
 
-  const [debouncedSearch] = useState(() =>
+  const [searchData, setSearchData] = useState<Country[] | GeoEntity[]>([])
+  const debouncedSearchRef = useRef(
     debounce((value: string) => {
       dispatch(setSearchQuery({ value, countryId: "", isCountry: false }))
     }, 300)
   )
-  const [searchData, setSearchData] = useState<Country[] | GeoEntity[]>([])
 
-  const onInputChange = useCallback(
-    (value: string) => {
-      debouncedSearch(value)
-    },
-    [debouncedSearch]
-  )
+  const onInputChange = useCallback((value: string) => {
+    debouncedSearchRef.current(value)
+  }, [])
 
   const onItemClick = useCallback(
     (item: DropdownItemType) => {
@@ -63,10 +60,12 @@ const useSearchInput = () => {
   }, [searchParams])
 
   useEffect(() => {
+    const searchFunc = debouncedSearchRef.current
+
     return () => {
-      debouncedSearch.cancel()
+      searchFunc.cancel()
     }
-  }, [debouncedSearch])
+  }, [])
 
   return {
     searchValue: searchParams.value,
