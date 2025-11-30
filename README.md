@@ -6,7 +6,7 @@ This project is developed according to the technical specifications located in t
 
 ## Demo
 
-https://the-movie-db-insanetim.vercel.app/
+https://otpusk-test-insanetim.vercel.app
 
 ## Available Scripts
 
